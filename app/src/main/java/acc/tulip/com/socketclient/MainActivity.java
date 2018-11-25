@@ -90,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(TAG, result);
                     }
                 }
-
                 int port2 = 10002;
 
                 try {
