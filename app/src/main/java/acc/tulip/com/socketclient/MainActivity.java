@@ -43,10 +43,13 @@ public class MainActivity extends AppCompatActivity {
     private final static String TAG = "lcy";
     private TextView tvShow;
     private ServerSocket serverSocket = null;
+    private ServerSocket serverSocket2 = null;
     private Gson gson;
     private List<ScreenDataBean.RootBean.ScreenBean.DisplaysBean.DisplayBean> displayBeanList;
     private LinearLayout llRoot;
     private Button tvXmlparse;
+    private Button btn_accept_video;
+    private Button btn_accept_image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,11 @@ public class MainActivity extends AppCompatActivity {
         tvShow = findViewById(R.id.tv_show);
         llRoot = findViewById(R.id.ll_root);
         tvXmlparse = findViewById(R.id.tv_xmlparse);
+        btn_accept_image = findViewById(R.id.btn_accept_image);
+        btn_accept_video = findViewById(R.id.btn_accept_video);
+
+//        btn_accept_image.setOnClickListener(this);
+//        btn_accept_video.setOnClickListener(this);
 
         //1、客户端测试接收字符串数据
 //        new Thread(new Runnable() {
@@ -82,6 +90,21 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(TAG, result);
                     }
                 }
+
+                int port2 = 10002;
+
+                try {
+                    serverSocket2 = new ServerSocket(port);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (null != serverSocket2) {
+                    while (true) {
+
+                        String result = receiveOrder();
+                        Log.d(TAG, result);
+                    }
+                }
             }
         });
         acceptThread.start();
@@ -98,16 +121,123 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+        //4、接收图片
+
+    }
+
+    /**
+     * 接收指令
+     * @return
+     */
+    private String receiveOrder() {
+        try {
+            // 接收
+            Socket name = serverSocket2.accept();
+            InputStream nameStream = name.getInputStream();
+            InputStreamReader streamReader = new InputStreamReader(nameStream);
+            BufferedReader br = new BufferedReader(streamReader);
+            String order = br.readLine();
+            br.close();
+            streamReader.close();
+            nameStream.close();
+            name.close();
+
+            String[] split = order.split(" ");
+            if (order.contains("img")) {
+                //
+            }
+
+
+            // 接收文件数据
+//            Socket data = serverSocket2.accept();
+//            InputStream dataStream = data.getInputStream();
+//            File dir = new File("/sdcard/MyReceivedXml"); // 创建文件的存储路径
+//            if (!dir.exists()) {
+//                dir.mkdirs();
+//            }
+//            String savePath = "/sdcard/MyReceivedXml/" + fileName; // 定义完整的存储路径
+//            FileOutputStream file = new FileOutputStream(savePath, false);
+//            byte[] buffer = new byte[1024];
+//            int size = -1;
+//            while ((size = dataStream.read(buffer)) != -1) {
+//                file.write(buffer, 0, size);
+//            }
+//            file.close();
+//            dataStream.close();
+//            data.close();
+//            return fileName + " 接收完成";
+            return "";
+        } catch (Exception e) {
+            return "接收错误:\n" + e.getMessage();
+        }
     }
 
     private void updateText(List<ScreenDataBean.RootBean.ScreenBean.DisplaysBean.DisplayBean> displayBeanList) {
         for (int i = 0; i < displayBeanList.size(); i++) {
             ScreenDataBean.RootBean.ScreenBean.DisplaysBean.DisplayBean displayBean = displayBeanList.get(i);
             TextView tv = new TextView(this);
-            tv.setWidth(Integer.parseInt(displayBean.getEWidth()));
-            tv.setHeight(Integer.parseInt(displayBean.getEHeight()));
-            tv.setPadding(9, 9, 9, 9);
+//            tv.setWidth(Integer.parseInt(displayBean.getEWidth()));
+//            tv.setHeight(Integer.parseInt(displayBean.getEHeight()));
+//            tv.setPadding(9, 9, 9, 9);
 
+            switch (i) {
+                case 0:
+                    tv.setText("27");
+                    break;
+                case 1:
+                    tv.setText("汪 * 英");
+                    break;
+                case 2:
+                    tv.setText("测试");
+                    break;
+                case 3:
+                    tv.setText("30");
+                    break;
+                case 4:
+                    tv.setText("赵 * 杰");
+                    break;
+                case 5:
+                    tv.setText("31");
+                    break;
+                case 6:
+                    tv.setText("蒋 * ");
+                    break;
+                case 7:
+                    tv.setText("32");
+                    break;
+                case 8:
+                    tv.setText("翁 * 英");
+                    break;
+                case 9:
+                    tv.setText("");
+                    break;
+                case 10:
+                    tv.setText("");
+                    break;
+                case 11:
+                    tv.setText("");
+                    break;
+                case 12:
+                    tv.setText("");
+                case 13:
+                    tv.setText("");
+                    break;
+                case 14:
+                    tv.setText("");
+                case 15:
+                    tv.setText("");
+                    break;
+                case 16:
+                    tv.setText("");
+                case 17:
+                    tv.setText("");
+                    break;
+                case 18:
+                    tv.setText("");
+            }
+//            tv.setText("王小英");
 //            tv.setText(displayBean.getElements().getT().getText() == null ? "":displayBean.getElements().getXh().getText().toString());
 
             tv.setTextColor(Color.parseColor(displayBean.getTextColor()));

@@ -28,7 +28,19 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="parse"
+        android:text="parse_xml"
         android:id="@+id/tv_xmlparse"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="accept_image"
+        android:id="@+id/btn_accept_image"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="accept_video"
+        android:id="@+id/btn_accept_video"
         />
 </LinearLayout>
